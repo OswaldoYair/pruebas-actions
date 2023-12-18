@@ -28,28 +28,11 @@ jobs:
     id: run-tests
     run: php artisan test
 
-  deploy:
+  after-tests:
     needs: laravel-tests
-    if: always() && needs.laravel-tests.result == 'success'
+    if: always() && needs.laravel-tests.result == 'failure'
     runs-on: ubuntu-latest
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: php-app
-
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-      
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
-        with:
-          app-name: 'practica-laravel-deploy1'
-          slot-name: 'Production'
-          package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B79CBDDC527D441CB036F2F78E804191 }}
+    - name: Finalize Workflow on Test Failure
+      run: exit 1
