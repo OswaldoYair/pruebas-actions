@@ -12,7 +12,7 @@ use App\Models\Role;
 
 class CategoriasController extends Controller
 {
-    public function index(){
+    public function index1(){
 
         $categorias = Categorias::all();
         return view('Categorias.index', compact('categorias'));
@@ -20,7 +20,7 @@ class CategoriasController extends Controller
         
     }
     
-    public function indexx()
+    public function indexx2()
     {
         $roles = Role::all();
         return view('Categorias.index',['roles' => $roles]);  
