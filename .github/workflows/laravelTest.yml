@@ -25,14 +25,8 @@ jobs:
       run: cp .env.example .env
 
     - name: Run Tests
-    id: run-tests
-    run: php artisan test
+      run: php artisan test
 
-  after-tests:
-    needs: laravel-tests
-    if: always() && needs.laravel-tests.result == 'failure'
-    runs-on: ubuntu-latest
-
-    steps:
     - name: Finalize Workflow on Test Failure
+      if: failure()
       run: exit 1
