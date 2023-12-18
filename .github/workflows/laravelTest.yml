@@ -28,5 +28,5 @@ jobs:
       run: php artisan test
 
     - name: Finalize Workflow on Test Failure
-        if: failure()
-        run: exit 1
+      if: failure()
+      run: exit 1
